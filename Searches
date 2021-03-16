@@ -93,4 +93,38 @@ public class Searches {
             a[indexSmallest] = temp;
         }
     }
+    
+    //the two mergesort methods and the merge method are related to merge sorting
+    public static void mergeSort(int[] a) {
+        int[] copyBuffer = new int[a.length];
+        mergeSort(a, copyBuffer, 0, a.length - 1);
+    }
+
+    private static void mergeSort(int[] a, int[] copyBuffer, int low, int high) {
+        if (low < high) {
+            int mid = (low + high) / 2;
+            mergeSort(a, copyBuffer, low, mid); //sorts left half
+            mergeSort(a, copyBuffer, mid + 1, high); //sorts right half
+            merge(a, copyBuffer, low, mid, high);
+        }
+    }
+
+    private static void merge(int[] a, int[] copyBuffer, int low, int mid, int high) {
+        int i1 = low;
+        int i2 = mid + 1;
+        for (int i = low; i <= high; i++) {
+            if (i1 > mid) { //left half is exhausted
+                copyBuffer[i] = a[i2++];
+            } else if (i2 > high) {
+                copyBuffer[i] = a[i1++];
+            } else if (a[i1] < a[i2]) {
+                copyBuffer[i] = a[i1++];
+            } else {
+                copyBuffer[i] = a[i2++];
+            }
+        }
+        for (int i = low; i <= high; i++) {
+            a[i] = copyBuffer[i];
+        }
+    }
 }
